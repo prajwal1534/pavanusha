@@ -1,0 +1,129 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+function App() {
+  const pinnedSection = useRef(null);
+  const bgRef = useRef(null);
+  const brideRef = useRef(null);
+  const groomRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const vw = window.innerWidth;
+
+      // background slow parallax
+      gsap.to(bgRef.current, {
+        y: -80,
+        scrollTrigger: {
+          trigger: pinnedSection.current,
+          start: "top top",
+          end: "+=800",
+          pin: true,
+          scrub: true,
+        },
+      });
+
+      // bride slides in from left, stops at center
+      gsap.fromTo(
+        brideRef.current,
+        { x: -vw },
+        {
+          x: 0,
+          scrollTrigger: {
+            trigger: pinnedSection.current,
+            start: "top top",
+            end: "+=700",
+            scrub: true,
+          },
+        },
+      );
+
+      // groom slides in from right, stops at center
+      gsap.fromTo(
+        groomRef.current,
+        { x: vw },
+        {
+          x: 0,
+          scrollTrigger: {
+            trigger: pinnedSection.current,
+            start: "top top",
+            end: "+=700",
+            scrub: true,
+          },
+        },
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div>
+      {/* section 1 */}
+      <div className="h-screen bg-black flex items-center justify-center">
+        <p className="text-white text-2xl">scroll down</p>
+      </div>
+
+      {/* section 2 — pinned engagement scene */}
+      <div ref={pinnedSection} className="relative h-screen overflow-hidden">
+        {/* background — slowest layer */}
+        <img
+          ref={bgRef}
+          src="images/e-bg.png"
+          className="absolute inset-0 w-full object-cover scale-110"
+          style={{ height: "120%", top: "-10%" }}
+          alt="background"
+        />
+
+        {/* dark overlay */}
+        <div className="absolute inset-0 bg-black/40 z-10" />
+
+        {/* bride — anchored at center, shifted left by her full width */}
+        {/* bride */}
+        <div
+          ref={brideRef}
+          className="absolute bottom-0 z-20 h-4/5"
+          style={{
+            right: "45%",
+          }}
+        >
+          <img
+            src="images/e2-nobg-bride.png"
+            className="h-full object-contain object-bottom"
+            alt="bride"
+          />
+        </div>
+
+        {/* groom */}
+        <div
+          ref={groomRef}
+          className="absolute bottom-0 z-20 h-4/5"
+          style={{
+            left: "50%",
+          }}
+        >
+          <img
+            src="images/e2-nobg-groom.png"
+            className="h-full object-contain object-bottom"
+            alt="groom"
+          />
+        </div>
+      </div>
+
+      {/* section 3 */}
+      <div className="h-screen bg-black flex items-center justify-center gap-4">
+        <div className="bg-amber-200 h-24 w-24 flex items-center justify-center">
+          hi
+        </div>
+        <div className="bg-amber-950 h-24 w-24 flex items-center justify-center text-white">
+          ok
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;

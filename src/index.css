@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-royal-gold: #e6c687;
+  --color-royal-ivory: #f9f6f0;
+  --color-royal-blush: #d8b4b4;
+  --color-royal-antique: #c5a059;
+  --color-royal-powder: #8fa4b5;
+  --color-royal-charcoal: #1a1a1a;
+
+  --font-couple: "Playfair Display", serif;
+  --font-heading: "Cinzel", serif;
+  --font-button: "Montserrat", sans-serif;
+}
